@@ -4,18 +4,25 @@
 
 ### Formatting
 
-1. To format manifests -> `terraform fmt -diff` (-diff option shows us the differences between versions)
+| Command | Info |
+|---------|------|
+| `terraform fmt` | To format manifests (-diff option shows us the differences between versions) |
 
 ### Plan
 
-1. Create and save a plan -> `terraform plan -out=< Plan Name >`
+| Command | Info |
+|---------|------|
+| `terraform plan -out=<Plan Name>` | Create and save a plan |
 
 ### Apply
 
-1. To use a saved plan(Plan -> 1) -> `terraform apply < Plan Name >` This allow us to apply the plan without a confirmation.
-
-2. Apply without confirmation -> `terraform apply -auto-aprove`
+| Command | Info |
+|---------|------|
+| `terraform apply <Plan Name>` | This allow us to apply a saved plan (No confirmation needed) |
+| `terraform apply -auto-aprove` | Apply without confirmation |
 
 ### Documentation
 
-1. To generate a README of your terraform manifests -> `docker run --rm -v $(pwd):/data cytopia/terraform-docs terraform-docs-012  md . > README.md`
+| Command | Info |
+|---------|------|
+| `docker run --rm -v $(pwd):/data cytopia/terraform-docs terraform-docs-012  md . > README.md` | To generate a README of your terraform manifests |
