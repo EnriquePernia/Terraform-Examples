@@ -1,5 +1,10 @@
 # TERRAFORM CHEATSHEET
 
+## Good practices
+
+- One
+- Two
+
 ## Commands
 
 ### General
