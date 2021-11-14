@@ -17,13 +17,23 @@ resource "docker_image" "nginx" {
 }
 
 # Create a nginx container
-resource "docker_container" "foo" {
+resource "docker_container" "nginx" {
   image = docker_image.nginx.latest
-  name  = "tf-test"
+  name  = "nginx"
 
   # Expose 80 internal port on 8080 external
   ports {
     internal = 80
     external = 8080
   }
+}
+
+output "Address" {
+  value = join(":", ["localhost", docker_container.nginx.ports[0].external])
+  description = "Local address of the Nginx docker container"
+}
+
+output "Container_name" {
+  value = docker_container.nginx.name
+  description = "Name of Nginx docker container"
 }
