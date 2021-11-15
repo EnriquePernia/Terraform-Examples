@@ -17,6 +17,7 @@
 | `terraform show` | Show all the information on our state |
 | `terraform state list` | List all the resources on our state |
 | `terraform output`| Print outputs (Only work with previous apply) |
+| `terraform apply -replace="resource"` | It forces a replacement of the resources you specify |
 
 ### Init
 
