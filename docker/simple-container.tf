@@ -13,6 +13,7 @@ provider "docker" {
 
 # Provides a random name for resources
 resource "random_id" "rnd_container_name" {
+  count = 2
   prefix = "container-"
   byte_length = 8
 }
@@ -24,12 +25,16 @@ resource "docker_image" "nginx" {
 
 # Create a nginx container
 resource "docker_container" "nginx" {
+  # Same number of containers as random names for them
+  count = length(random_id.rnd_container_name)
   image = docker_image.nginx.latest
-  name  = random_id.rnd_container_name.hex
+  # Assign a random name for each container
+  name  = random_id.rnd_container_name[count.index].hex
 
   # Expose 80 internal port on 8080 external
   ports {
     internal = 80
-    external = 8080
+    # Auto allocate, if we have multiple resources its better to output its value and let tf handle it
+    # external = 8080
   }
 }
