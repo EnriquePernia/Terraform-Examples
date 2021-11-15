@@ -18,6 +18,7 @@
 | `terraform state list` | List all the resources on our state |
 | `terraform output`| Print outputs (Only work with previous apply) |
 | `terraform apply -replace="resource"` | It forces a replacement of the resources you specify |
+| `terraform apply -lock` | Remove the lock on state, this is not recomended because it can lead to errors |
 
 ### Init
 
@@ -39,3 +40,7 @@
 | `terraform apply <Plan Name>` | This allow us to apply a saved plan (No confirmation needed) |
 | `terraform apply -auto-aprove` | Apply without confirmation |
 | `terraform -chdir=<DIR> apply` | Apply in DIR directory |
+
+## Wiki
+
+- Removing terraform state lock can lead to errors. If you dont lock your state when applying, anyone can modify it, so the resources you deploy are not the same as the ones at the final deployment.
