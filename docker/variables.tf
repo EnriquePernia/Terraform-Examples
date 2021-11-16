@@ -1,9 +1,13 @@
+locals {
+  containers_max_amount = length(var.container_external_port)
+}
+
 variable "containers_amount" {
   type        = number
   default     = 1
   description = "Number of containers deployed"
   validation {
-    condition     = var.containers_amount >= 1 && var.containers_amount < 10
+    condition     = var.containers_amount >= 1 # && var.containers_amount < local.containers_max_amount
     error_message = "Trying to deploy an invalid number of containers."
   }
 }
@@ -19,9 +23,13 @@ variable "container_internal_port" {
 }
 
 variable "container_external_port" {
-  type        = number
+  type        = list(number)
   description = "External port exposed on docker containers"
   sensitive   = true
+  validation {
+    condition     = max(var.container_external_port...) < 60000 && min(var.container_external_port...) > 0
+    error_message = "External port range out of bounds."
+  }
 }
 
 variable "docker_host" {
