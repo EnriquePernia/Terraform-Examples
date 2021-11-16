@@ -13,7 +13,7 @@ provider "docker" {
 
 # Provides a random name for resources
 resource "random_id" "rnd_container_name" {
-  count       = var.containers_amount
+  count       = local.containers_max_amount
   prefix      = var.container_name_prefix
   byte_length = var.random_id_length
 }
@@ -35,6 +35,11 @@ resource "docker_container" "nginx" {
   ports {
     internal = var.container_internal_port
     # Auto allocate, if we have multiple resources we can output its value and let tf handle it
-    external = var.container_external_port
+    external = var.container_external_port[count.index]
+  }
+  volumes {
+    container_path = "/data"
+    # Path.cwd refers to ./
+    host_path = "${path.cwd}/data"
   }
 }
