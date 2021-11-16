@@ -12,7 +12,7 @@
 | Command | Info |
 |---------|------|
 | `terraform fmt` | To format manifests (-diff option shows us the differences between versions) |
-| `terraform -chdir=<DIR> fmt` | Format .tf files in DIR directory |
+| `terraform -chdir=<Dir> fmt` | Format .tf files in DIR directory |
 | `docker run --rm -v $(pwd):/data cytopia/terraform-docs terraform-docs-012  md . > README.md` | To generate a README of your terraform manifests |
 | `terraform show` | Show all the information on our state |
 | `terraform state list` | List all the resources on our state |
@@ -24,14 +24,16 @@
 
 | Command | Info |
 |---------|------|
-| `terraform -chdir=<DIR> init` | Init in DIR directory |
+| `terraform -chdir=<Dir> init` | Init in DIR directory |
 
 ### Plan
 
 | Command | Info |
 |---------|------|
 | `terraform plan -out=<Plan Name>` | Create and save a plan |
-| `terraform -chdir=<DIR> plan` | Plan in DIR directory |
+| `terraform -chdir=<Dir> plan` | Plan in DIR directory |
+| `terraform plan -var-file=<Filename>` | Use different .tfvars files |
+| `terraform plan -var <var_name>=<value>` | Define the value for .tfvars keys |
 
 ### Apply
 
@@ -39,8 +41,10 @@
 |---------|------|
 | `terraform apply <Plan Name>` | This allow us to apply a saved plan (No confirmation needed) |
 | `terraform apply -auto-aprove` | Apply without confirmation |
-| `terraform -chdir=<DIR> apply` | Apply in DIR directory |
+| `terraform -chdir=<Dir> apply` | Apply in DIR directory |
 
 ## Wiki
 
 - Removing terraform state lock can lead to errors. If you dont lock your state when applying, anyone can modify it, so the resources you deploy are not the same as the ones at the final deployment.
+- Anything specified on the command line will overwrite resources created by files. Ex: Using the `terraform plan -var <var_name>=<value>` command, replace whatever value `<var_name>` has on .tfvars for `<value>`.
+- Order is important when using command line arguments. If you execute `terraform plan -var <var_name>=<value> -var-file=<Filename>` vars values will be the ones defined on `-var-file`. Buf if you do it hte other way `terraform plan -var-file=<Filename> -var <var_name>=<value>`, `<var_name>=<value>` will be the the one used.
