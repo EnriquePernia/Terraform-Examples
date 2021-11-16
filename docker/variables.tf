@@ -1,5 +1,5 @@
 locals {
-  containers_max_amount = length(var.container_external_port)
+  containers_max_amount = length(lookup(var.container_external_port, var.env))
 }
 
 variable "containers_amount" {
@@ -23,12 +23,16 @@ variable "container_internal_port" {
 }
 
 variable "container_external_port" {
-  type        = list(number)
+  type        = map(list(number))
   description = "External port exposed on docker containers"
   sensitive   = false
   validation {
-    condition     = max(var.container_external_port...) < 60000 && min(var.container_external_port...) > 0
-    error_message = "External port range out of bounds."
+    condition     = max(var.container_external_port["dev"]...) < 9000 && min(var.container_external_port["dev"]...) > 8000
+    error_message = "External port range out of bounds on dev env."
+  }
+  validation {
+    condition     = max(var.container_external_port["prod"]...) < 2000 && min(var.container_external_port["prod"]...) > 1000
+    error_message = "External port range out of bounds on prod env."
   }
 }
 
@@ -38,7 +42,7 @@ variable "docker_host" {
 }
 
 variable "docker_image_name" {
-  type        = map(any)
+  type        = map(string)
   description = "Docker image used on containers"
 }
 

@@ -35,7 +35,7 @@ resource "docker_container" "nginx" {
   ports {
     internal = var.container_internal_port
     # Auto allocate, if we have multiple resources we can output its value and let tf handle it
-    external = var.container_external_port[count.index]
+    external = lookup(var.container_external_port, var.env)[count.index]
   }
   volumes {
     container_path = "/data"
