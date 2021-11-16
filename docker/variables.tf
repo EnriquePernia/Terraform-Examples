@@ -2,9 +2,8 @@ variable "containers_amount" {
   type        = number
   default     = 1
   description = "Number of containers deployed"
-
   validation {
-    condition     = var.containers_amount > 1 && var.containers_amount < 10
+    condition     = var.containers_amount >= 1 && var.containers_amount < 10
     error_message = "Trying to deploy an invalid number of containers."
   }
 }
@@ -17,6 +16,12 @@ variable "container_name_prefix" {
 variable "container_internal_port" {
   type        = number
   description = "Internal port exposed on docker containers"
+}
+
+variable "container_external_port" {
+  type        = number
+  description = "External port exposed on docker containers"
+  sensitive   = true
 }
 
 variable "docker_host" {

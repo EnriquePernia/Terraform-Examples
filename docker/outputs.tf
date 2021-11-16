@@ -5,10 +5,16 @@ output "Address" {
   # value = [for i in docker_container.nginx[*]: join(":", ["localhost", i.ports[0].external])]
   value       = [for i in docker_container.nginx[*] : join(":", ["localhost"], i.ports[*].external)]
   description = "Local address of the Nginx docker container"
+  sensitive   = true
 }
 
 output "Container_name" {
   # Use splat operator to output multiple resources
   value       = docker_container.nginx[*].name
   description = "Name of Nginx docker container"
+}
+
+output "Container_internal_port" {
+  value       = [for i in docker_container.nginx[*] : join(" -> ", ["Internal port"], i.ports[*].internal)]
+  description = "Internal port of docker containers"
 }

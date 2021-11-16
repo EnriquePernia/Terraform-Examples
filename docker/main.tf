@@ -31,11 +31,10 @@ resource "docker_container" "nginx" {
   image = docker_image.nginx.latest
   # Assign a random name for each container
   name = random_id.rnd_container_name[count.index].hex
-
   # Expose 80 internal port on 8080 external
   ports {
     internal = var.container_internal_port
-    # Auto allocate, if we have multiple resources its better to output its value and let tf handle it
-    # external = 8080
+    # Auto allocate, if we have multiple resources we can output its value and let tf handle it
+    external = var.container_external_port
   }
 }
