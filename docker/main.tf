@@ -20,7 +20,7 @@ resource "random_id" "rnd_container_name" {
 
 # Pulls the image
 resource "docker_image" "nginx" {
-  name = var.docker_image_name
+  name = lookup(var.docker_image_name, var.env)
 }
 
 # Create a nginx container

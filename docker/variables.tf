@@ -25,7 +25,7 @@ variable "container_internal_port" {
 variable "container_external_port" {
   type        = list(number)
   description = "External port exposed on docker containers"
-  sensitive   = true
+  sensitive   = false
   validation {
     condition     = max(var.container_external_port...) < 60000 && min(var.container_external_port...) > 0
     error_message = "External port range out of bounds."
@@ -38,7 +38,7 @@ variable "docker_host" {
 }
 
 variable "docker_image_name" {
-  type        = string
+  type        = map(any)
   description = "Docker image used on containers"
 }
 
@@ -46,7 +46,13 @@ variable "random_id_length" {
   type        = number
   description = "Lenth of unique id string for each container"
   validation {
-    condition     = var.random_id_length > 4 && var.random_id_length < 10
+    condition     = var.random_id_length >= 4 && var.random_id_length < 10
     error_message = "Invalid random_id lenght."
   }
+}
+
+variable "env" {
+  type        = string
+  default     = "dev"
+  description = "Environment to deploy to"
 }
