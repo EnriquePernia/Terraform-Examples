@@ -1,5 +1,5 @@
 locals {
-  containers_max_amount = length(lookup(var.container_external_port, var.env))
+  containers_max_amount = length(var.container_external_port[terraform.workspace])
 }
 
 variable "containers_amount" {
@@ -55,8 +55,9 @@ variable "random_id_length" {
   }
 }
 
-variable "env" {
-  type        = string
-  default     = "dev"
-  description = "Environment to deploy to"
-}
+# Not needed since we use terraform.workspace
+# variable "env" {
+#   type        = string
+#   default     = "dev"
+#   description = "Environment to deploy to"
+# }

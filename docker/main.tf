@@ -20,7 +20,7 @@ resource "random_id" "rnd_container_name" {
 
 # Pulls the image
 resource "docker_image" "nginx" {
-  name = lookup(var.docker_image_name, var.env)
+  name = var.docker_image_name[terraform.workspace]
 }
 
 # Create a nginx container
@@ -35,7 +35,7 @@ resource "docker_container" "nginx" {
   ports {
     internal = var.container_internal_port
     # Auto allocate, if we have multiple resources we can output its value and let tf handle it
-    external = lookup(var.container_external_port, var.env)[count.index]
+    external = var.container_external_port[terraform.workspace][count.index]
   }
   volumes {
     container_path = "/data"
