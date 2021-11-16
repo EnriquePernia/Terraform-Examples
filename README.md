@@ -19,6 +19,10 @@
 | `terraform output`| Print outputs (Only work with previous apply) |
 | `terraform apply -replace="resource"` | It forces a replacement of the resources you specify |
 | `terraform apply -lock` | Remove the lock on state, this is not recomended because it can lead to errors |
+| `terraform workspace new <Workspace_name>` | Create new workspace |
+| `terraform workspace show` | Show current workspace |
+| `terraform workspace list` | Lists all workspaces |
+| `terraform workspace select <Workspace_name>` | Select workspace |
 
 ### Init
 
