@@ -2,8 +2,8 @@
 
 ## Good practices
 
-- One
-- Two
+- Project structure:
+- If your project is small, use workspaces to develop it. In case it gets bigger, you will need different environments.
 
 ## Commands
 
