@@ -16,6 +16,7 @@
 | `docker run --rm -v $(pwd):/data cytopia/terraform-docs terraform-docs-012  md . > README.md` | To generate a README of your terraform manifests |
 | `terraform show` | Show all the information on our state |
 | `terraform state list` | List all the resources on our state |
+| `terraform state show <Resource>` | List all the information of our resource |
 | `terraform output`| Print outputs (Only work with previous apply) |
 | `terraform apply -replace="resource"` | It forces a replacement of the resources you specify |
 | `terraform apply -lock` | Remove the lock on state, this is not recomended because it can lead to errors |

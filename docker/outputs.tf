@@ -9,8 +9,9 @@ output "Address" {
 }
 
 output "Container_image" {
-  # Use splat operator to output multiple resources
-  value       = [for i in docker_container.nginx[*] : join(" - ", [i.name], [docker_image.nginx.name], [terraform.workspace])]
+  # Can also be done with join:
+  # [for i in docker_container.nginx[*] : join(" - ", [i.name], [docker_image.nginx.name], [terraform.workspace])]
+  value       = [for i in docker_container.nginx[*] :  "${i.name} - ${docker_image.nginx.name} - ${terraform.workspace}"]
   description = "Name of Nginx docker container"
 }
 
