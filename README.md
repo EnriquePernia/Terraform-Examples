@@ -24,6 +24,7 @@
 | `terraform workspace show` | Show current workspace |
 | `terraform workspace list` | Lists all workspaces |
 | `terraform workspace select <Workspace_name>` | Select workspace |
+| `terraform graph | dot -Tpdf > plan.pdf` | Show terraform workflow on a graph |
 
 ### Init
 
@@ -53,3 +54,4 @@
 - Removing terraform state lock can lead to errors. If you dont lock your state when applying, anyone can modify it, so the resources you deploy are not the same as the ones at the final deployment.
 - Anything specified on the command line will overwrite resources created by files. Ex: Using the `terraform plan -var <var_name>=<value>` command, replace whatever value `<var_name>` has on .tfvars for `<value>`.
 - Order is important when using command line arguments. If you execute `terraform plan -var <var_name>=<value> -var-file=<Filename>` vars values will be the ones defined on `-var-file`. Buf if you do it hte other way `terraform plan -var-file=<Filename> -var <var_name>=<value>`, `<var_name>=<value>` will be the the one used.
+- Install `graphviz` tool as a help to use `terraform graph | dot -Tpdf > plan.pdf`

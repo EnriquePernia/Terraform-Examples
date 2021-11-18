@@ -1,16 +1,3 @@
-terraform {
-  required_providers {
-    docker = {
-      source  = "kreuzwerker/docker"
-      version = "~> 2.15.0"
-    }
-  }
-}
-
-provider "docker" {
-  host = var.docker_host
-}
-
 # Provides a random name for resources
 resource "random_id" "rnd_container_name" {
   count       = local.containers_max_amount
@@ -19,8 +6,10 @@ resource "random_id" "rnd_container_name" {
 }
 
 # Pulls the image
-resource "docker_image" "nginx" {
-  name = var.docker_image_name[terraform.workspace]
+module "image" {
+  source = "../modules/deploy-container"
+  # image_name references to var.image_name in module
+  image_name = var.docker_image_name[terraform.workspace]
 }
 
 # Create a nginx container
@@ -28,7 +17,8 @@ resource "docker_container" "nginx" {
   # Same number of containers as random names for them
   # Can also be count = var.containers_amount (But i prefeer it to depend on resources created)
   count = length(random_id.rnd_container_name)
-  image = docker_image.nginx.latest
+  # Reference to the module output
+  image = module.image.image_name
   # Assign a random name for each container
   name = random_id.rnd_container_name[count.index].hex
   # Expose 80 internal port on 8080 external
@@ -38,7 +28,7 @@ resource "docker_container" "nginx" {
     external = var.container_external_port[terraform.workspace][count.index]
   }
   volumes {
-    container_path = "/data"
+    container_path = var.container_path
     # Path.cwd refers to ./
     host_path = "${path.cwd}/data"
   }

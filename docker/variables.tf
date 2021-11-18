@@ -2,6 +2,7 @@ locals {
   containers_max_amount = length(var.container_external_port[terraform.workspace])
 }
 
+# Not used since we use a number based on the amount of ports allowed
 variable "containers_amount" {
   type        = number
   default     = 1
@@ -34,6 +35,11 @@ variable "container_external_port" {
     condition     = max(var.container_external_port["prod"]...) < 2000 && min(var.container_external_port["prod"]...) > 1000
     error_message = "External port range out of bounds on prod env."
   }
+}
+
+variable "container_path" {
+  type        = string
+  description = "Internal container path to attach the local volume"
 }
 
 variable "docker_host" {
