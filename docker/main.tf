@@ -12,24 +12,22 @@ module "image" {
   image_name = var.docker_image_name[terraform.workspace]
 }
 
-# Create a nginx container
-resource "docker_container" "container" {
+# Create a container
+module "container" {
+  source = "../modules/container"
   # Same number of containers as random names for them
+  # Mantained out of the module
   # Can also be count = var.containers_amount (But i prefeer it to depend on resources created)
   count = length(random_id.rnd_container_name)
   # Reference to the module output
-  image = module.image.image_name
+  image_in = module.image.image_name
   # Assign a random name for each container
-  name = random_id.rnd_container_name[count.index].hex
+  name_in = random_id.rnd_container_name[count.index].hex
   # Expose 80 internal port on 8080 external
-  ports {
-    internal = var.container_internal_port
-    # Auto allocate, if we have multiple resources we can output its value and let tf handle it
-    external = var.container_external_port[terraform.workspace][count.index]
-  }
-  volumes {
-    container_path = var.container_path
-    # Path.cwd refers to ./
-    host_path = "${path.cwd}/data"
-  }
+  int_port_in = var.container_internal_port
+  # Auto allocate, if we have multiple resources we can output its value and let tf handle it
+  ext_port_in       = var.container_external_port[terraform.workspace][count.index]
+  container_path_in = var.container_path
+  # Path.cwd refers to ./
+  host_path_in = "${path.cwd}/data"
 }
