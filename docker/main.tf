@@ -13,7 +13,7 @@ module "image" {
 }
 
 # Create a nginx container
-resource "docker_container" "nginx" {
+resource "docker_container" "container" {
   # Same number of containers as random names for them
   # Can also be count = var.containers_amount (But i prefeer it to depend on resources created)
   count = length(random_id.rnd_container_name)
