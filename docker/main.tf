@@ -12,7 +12,7 @@ module "image" {
   image_name = var.docker_image_name[terraform.workspace]
 }
 
-# Create a nginx container
+# Create a container
 resource "docker_container" "container" {
   # Same number of containers as random names for them
   # Can also be count = var.containers_amount (But i prefeer it to depend on resources created)
