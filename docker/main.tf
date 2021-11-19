@@ -7,7 +7,7 @@ resource "random_id" "rnd_container_name" {
 
 # Pulls the image
 module "image" {
-  source = "../modules/deploy-container"
+  source = "../modules/image"
   # image_name references to var.image_name in module
   image_name = var.docker_image_name[terraform.workspace]
 }
