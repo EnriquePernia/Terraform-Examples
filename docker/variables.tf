@@ -48,7 +48,7 @@ variable "docker_host" {
 }
 
 variable "docker_image_name" {
-  type        = map(string)
+  type        = map(map(string))
   description = "Docker image used on containers"
 }
 

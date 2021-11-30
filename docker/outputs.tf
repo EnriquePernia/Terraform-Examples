@@ -6,8 +6,8 @@ output "Address" {
 
 output "Container_image" {
   # Can also be done with join:
-  # [for i in docker_container.nginx[*] : join(" - ", [i.name], [module.image.name], [terraform.workspace])]
-  value       = [for i in module.container[*] : "${i.name} - ${module.image.image_name} - ${terraform.workspace}"]
+  # [for i in module.container[*] : join(" - ", [i.name], [module.image.image_name], [terraform.workspace])]
+  value       = [for i in module.container[*] : "${i.name} - ${module.image["nginx"].image_name} - ${terraform.workspace}"]
   description = "Name of Nginx docker container"
 }
 
