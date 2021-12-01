@@ -22,14 +22,14 @@ resource "docker_container" "container" {
     for_each = var.volumes_in
     content {
       container_path = volumes.value.container_path
-      volume_name      = module.volume[count.index].volume_output[volumes.key]
+      volume_name    = module.volume[count.index].volume_output[volumes.key]
     }
   }
 }
 
 module "volume" {
-  source = "./volume"
-  count = var.count_in
+  source        = "./volume"
+  count         = var.count_in
   volumes_count = length(var.volumes_in)
-  volume_name = "${var.name_in}-${count.index}-volume"
+  volume_name   = "${var.name_in}-${count.index}-volume"
 }
