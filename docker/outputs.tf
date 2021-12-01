@@ -15,3 +15,8 @@
 #   value       = module.container[*].container_internal_port
 #   description = "Internal port of docker containers"
 # }
+
+output "Address" {
+  value = module.container[*]
+  description = "Address of the containers"  
+}
