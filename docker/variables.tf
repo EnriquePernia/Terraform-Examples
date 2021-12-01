@@ -1,7 +1,3 @@
-locals {
-  containers_max_amount = length(var.container_external_port[terraform.workspace])
-}
-
 # Not used since we use a number based on the amount of ports allowed
 variable "containers_amount" {
   type        = number
@@ -24,17 +20,17 @@ variable "container_internal_port" {
 }
 
 variable "container_external_port" {
-  type        = map(list(number))
+  type        = map(map(list(number)))
   description = "External port exposed on docker containers"
   sensitive   = false
-  validation {
-    condition     = max(var.container_external_port["dev"]...) < 9000 && min(var.container_external_port["dev"]...) > 8000
-    error_message = "External port range out of bounds on dev env."
-  }
-  validation {
-    condition     = max(var.container_external_port["prod"]...) < 2000 && min(var.container_external_port["prod"]...) > 1000
-    error_message = "External port range out of bounds on prod env."
-  }
+  # validation {
+  #   condition     = max(var.container_external_port["nginx"]["dev"]...) < 9000 && min(var.container_external_port["nginx"]["dev"]...) > 8000
+  #   error_message = "External port range out of bounds on dev env."
+  # }
+  # validation {
+  #   condition     = max(var.container_external_port["nginx"]["prod"]...) < 2000 && min(var.container_external_port["nginx"]["prod"]...) > 1000
+  #   error_message = "External port range out of bounds on prod env."
+  # }
 }
 
 variable "container_path" {
