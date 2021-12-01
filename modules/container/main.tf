@@ -9,16 +9,27 @@ resource "random_id" "rnd_container_name" {
 
 # Create a container
 resource "docker_container" "container" {
-  count = length(random_id.rnd_container_name)
+  count = var.count_in
   image = var.image_in
-  name  = random_id.rnd_container_name[count.index].hex
+  name  = "${var.name_in}-${random_id.rnd_container_name[count.index].hex}"
   ports {
     internal = var.int_port_in
     # Auto allocate, if we have multiple resources we can output its value and let tf handle it
     external = var.ext_port_in[count.index]
   }
-  volumes {
-    container_path = var.container_path_in
-    host_path      = var.host_path_in
+  # Dynamic blocks
+  dynamic "volumes" {
+    for_each = var.volumes_in
+    content {
+      container_path = volumes.value.container_path
+      volume_name      = module.volume[count.index].volume_output[volumes.key]
+    }
   }
+}
+
+module "volume" {
+  source = "./volume"
+  count = var.count_in
+  volumes_count = length(var.volumes_in)
+  volume_name = "${var.name_in}-${count.index}-volume"
 }

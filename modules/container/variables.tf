@@ -3,6 +3,11 @@ variable "image_in" {
   description = "Image for the containers deployed"
 }
 
+variable "name_in" {
+  type        = string
+  description = "Name of the image for the containers deployed"
+}
+
 variable "int_port_in" {
   type        = number
   description = "Internal port for the containers deployed"
@@ -13,13 +18,8 @@ variable "ext_port_in" {
   description = "External port for the containers deployed"
 }
 
-variable "container_path_in" {
-  type        = string
-  description = "Volume path on the container for the containers deployed"
-}
-
-variable "host_path_in" {
-  type        = string
+variable "volumes_in" {
+  type        = list(map(string))
   description = "Volume path on the host for the containers deployed"
 }
 

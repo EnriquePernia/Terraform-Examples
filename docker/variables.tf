@@ -1,14 +1,3 @@
-# Not used since we use a number based on the amount of ports allowed
-variable "containers_amount" {
-  type        = number
-  default     = 1
-  description = "Number of containers deployed"
-  validation {
-    condition     = var.containers_amount >= 1 # && var.containers_amount < local.containers_max_amount
-    error_message = "Trying to deploy an invalid number of containers."
-  }
-}
-
 variable "container_name_prefix" {
   type        = string
   description = "Prefix added to container names"
@@ -33,11 +22,6 @@ variable "container_external_port" {
   # }
 }
 
-variable "container_path" {
-  type        = string
-  description = "Internal container path to attach the local volume"
-}
-
 variable "docker_host" {
   type        = string
   description = "Value of the docker host"
@@ -56,10 +40,3 @@ variable "random_id_length" {
     error_message = "Invalid random_id lenght."
   }
 }
-
-# Not needed since we use terraform.workspace
-# variable "env" {
-#   type        = string
-#   default     = "dev"
-#   description = "Environment to deploy to"
-# }

@@ -1,29 +1,3 @@
-locals {
-  deployment = {
-    nginx = {
-      image           = var.docker_image_name["nginx"][terraform.workspace]
-      int             = 80
-      ext             = var.container_external_port["nginx"][terraform.workspace]
-      container_path  = "/data"
-      container_count = length(var.container_external_port["nginx"][terraform.workspace])
-    }
-    influxdb = {
-      image           = var.docker_image_name["influx"][terraform.workspace]
-      int             = 80
-      ext             = var.container_external_port["influx"][terraform.workspace]
-      container_path  = "/data"
-      container_count = length(var.container_external_port["influx"][terraform.workspace])
-    }
-    grafana = {
-      image           = var.docker_image_name["grafana"][terraform.workspace]
-      int             = 3000
-      ext             = var.container_external_port["grafana"][terraform.workspace]
-      container_path  = "/var/lib/grafana"
-      container_count = length(var.container_external_port["grafana"][terraform.workspace])
-    }
-  }
-}
-
 # Pulls the image
 module "image" {
   source   = "../modules/image"
@@ -43,12 +17,11 @@ module "container" {
   # Reference to the module output
   count_in       = each.value.container_count
   id_length_in   = var.random_id_length
+  name_in = each.key
   image_in       = module.image[each.key].image_name
   name_prefix_in = var.container_name_prefix
   # Assign a random name for each container]
   int_port_in       = each.value.int
   ext_port_in       = each.value.ext
-  container_path_in = each.value.container_path
-  # Path.cwd refers to ./
-  host_path_in = join("/", [path.cwd], [each.value.container_path])
-} 
+  volumes_in = each.value.volumes
+}
