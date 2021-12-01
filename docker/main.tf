@@ -1,17 +1,17 @@
 locals {
   deployment = {
     nginx = {
-      image = var.docker_image_name["nginx"][terraform.workspace]
-      int   = 80
-      ext   = var.container_external_port["nginx"][terraform.workspace]
-      container_path = "/data"
+      image           = var.docker_image_name["nginx"][terraform.workspace]
+      int             = 80
+      ext             = var.container_external_port["nginx"][terraform.workspace]
+      container_path  = "/data"
       container_count = length(var.container_external_port["nginx"][terraform.workspace])
     }
     influxdb = {
-      image = var.docker_image_name["influx"][terraform.workspace]
-      int   = 80
-      ext   = var.container_external_port["influx"][terraform.workspace]
-      container_path = "/data"
+      image           = var.docker_image_name["influx"][terraform.workspace]
+      int             = 80
+      ext             = var.container_external_port["influx"][terraform.workspace]
+      container_path  = "/data"
       container_count = length(var.container_external_port["influx"][terraform.workspace])
     }
   }
@@ -34,9 +34,9 @@ module "container" {
   for_each = local.deployment
   # count = length(random_id.rnd_container_name)
   # Reference to the module output
-  count_in = each.value.container_count
-  id_length_in = var.random_id_length
-  image_in = module.image[each.key].image_name
+  count_in       = each.value.container_count
+  id_length_in   = var.random_id_length
+  image_in       = module.image[each.key].image_name
   name_prefix_in = var.container_name_prefix
   # Assign a random name for each container]
   int_port_in       = each.value.int

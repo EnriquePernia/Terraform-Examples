@@ -24,16 +24,16 @@ variable "host_path_in" {
 }
 
 variable "count_in" {
-  type = number
+  type        = number
   description = "Number of containers to deploy"
 }
 
 variable "id_length_in" {
-  type = number
+  type        = number
   description = "Length of the container name id"
 }
 
 variable "name_prefix_in" {
-  type = string
+  type        = string
   description = "Value of the name prefix for the containers"
 }
