@@ -36,4 +36,4 @@ terraform.rc
 # Ignore .lock files, may want to comment this on prod
 *.lock*
 
-var*
+var/*

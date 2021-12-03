@@ -14,7 +14,6 @@ resource "docker_container" "container" {
   name  = "${var.name_in}-${random_id.rnd_container_name[count.index].hex}"
   ports {
     internal = var.int_port_in
-    # Auto allocate, if we have multiple resources we can output its value and let tf handle it
     external = var.ext_port_in[count.index]
   }
   # Dynamic blocks
